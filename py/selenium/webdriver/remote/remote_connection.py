@@ -478,7 +478,7 @@ class RemoteConnection(object):
           A dictionary with the server's parsed JSON response.
         """
         LOGGER.debug('%s %s %s' % (method, url, body))
-
+        print "--> %s %s %s" % (method, url, body)
         parsed_url = parse.urlparse(url)
         headers = self.get_remote_connection_headers(parsed_url, self.keep_alive)
 
@@ -538,6 +538,7 @@ class RemoteConnection(object):
             if 300 <= statuscode < 304:
                 return self._request('GET', resp.getheader('location'))
             body = data.decode('utf-8').replace('\x00', '').strip()
+            print "<-- %s %s" % (statuscode, body)
             if 399 < statuscode <= 500:
                 return {'status': statuscode, 'value': body}
             content_type = []
